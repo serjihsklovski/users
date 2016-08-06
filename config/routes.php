@@ -1,5 +1,5 @@
 <?php
 
 return array(
-  'users/([0-9]+)' => 'users/$1',
+  'users/view/([0-9]+)/([0-9]+)' => 'users/view',
 );
