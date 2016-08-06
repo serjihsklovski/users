@@ -9,5 +9,12 @@ error_reporting(E_ALL);
 define('ROOT', dirname(__FILE__));
 
 require_once ROOT . '/components/router.php';
+require_once ROOT . '/components/error_404.php';
 
 $router = new Router();
+
+try {
+  $router->run();
+} catch (Error_404 $e) {
+  echo $e->msg();
+}
