@@ -17,7 +17,7 @@ class UsersModel {
    * returns list of users
    * list can be sorted ($sort = true)
    */
-  public static function get_users_list($begin, $count, $sort=false, $desc=false, $field='id') {
+  public static function get_users_list($lim_1=false, $lim_2=false, $sort=false, $desc=false, $field='id') {
     $conn = Database::connect();
     $users_list = array();
     $sql = "SELECT id, uname, email, aedt FROM users";
@@ -30,7 +30,13 @@ class UsersModel {
       }
     }
 
-    $sql .= " LIMIT $begin, $count";
+    if ($lim_1) {
+      $sql .= " LIMIT $lim_1";
+
+      if ($lim_2) {
+        $sql .= ", $lim_2";
+      }
+    }
 
     $res = $conn->query($sql);
 
