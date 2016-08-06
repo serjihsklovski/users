@@ -26,6 +26,11 @@ class Router {
           include_once($controller_filename);
         }
 
+        $logmsg = "" . date('Y.m.d H:i:s') . ": required `$controller_name` "
+            . "from file `$controller_filename` with action `$action_name`";
+
+        Logger::log_to(ROOT . '/logs/log.txt', $logmsg);
+
         $controller = new $controller_name;
         $res = call_user_func_array(array($controller, $action_name), $array);
 

@@ -11,6 +11,7 @@ define('ROOT', dirname(__FILE__));
 require_once ROOT . '/components/router.php';
 require_once ROOT . '/components/error_404.php';
 require_once ROOT . '/components/database.php';
+require_once ROOT . '/components/logger.php';
 
 $router = new Router();
 
