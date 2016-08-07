@@ -9,10 +9,15 @@ class Router {
 
   public function run() {
     $uri = self::_get_uri();
+    $logmsg =
+          "Datetime:    " . date('Y.m.d H:i:s') . "\n"
+        . "Request URI: `$uri`\n";
 
     // does `$uri` exist in `$_routes`?
     foreach ($this->_routes as $uri_pattern => $path) {
       if (preg_match("~$uri_pattern~", $uri)) {
+        $logmsg .= "Query:       ok\n";
+
         $internal_route = preg_replace("~$uri_pattern~", $path, $uri);
         $segments = explode('/', $internal_route);
         $tmp = array_shift($segments);
@@ -26,12 +31,11 @@ class Router {
           include_once($controller_filename);
         }
 
-        $logmsg =
-              "Datetime:   " . date('Y.m.d H:i:s') . "\n"
-            . "Controller: `$controller_name`\n"
-            . "File:       `$controller_filename`\n"
-            . "Action:     `$action_name`\n"
-            . "Arguments:  ";
+        $logmsg .=
+              "Controller:  `$controller_name`\n"
+            . "File:        `$controller_filename`\n"
+            . "Action:      `$action_name`\n"
+            . "Arguments:   ";
 
         for ($i = 0; $i < count($args); $i++) {
           $logmsg .= "`$args[$i]` ";
@@ -49,7 +53,9 @@ class Router {
         }
       }
     }
-
+    $logmsg .= "Query:       404\n";
+    $logmsg .= "\n======================================================\n";
+    Logger::log_to(ROOT . '/logs/log.txt', $logmsg);
     throw new Error_404;
   }
 
