@@ -52,4 +52,36 @@ class UsersModel {
 
     return $users_list;
   }
+
+  /*
+   * inserts new user in the table
+   */
+  public static function insert_user($uname, $email, $aedt) {
+    $conn = Database::connect();
+    $conn->query("INSERT INTO users VALUES(NULL, '$uname', '$email', '$aedt')");
+  }
+
+  /*
+   * deletes user from the table by id
+   */
+  public static function delete_user($id) {
+    $conn = Database::connect();
+    $conn->query("DELETE FROM users WHERE id=$id");
+  }
+
+  /*
+   * edites user in table by id
+   */
+  public static function edit_user($id, $uname, $email, $aedt) {
+    $conn = Database::connect();
+    $conn->query("UPDATE users SET uname='$uname', email='$email', aedt='$aedt'"
+        . " WHERE id=$id");
+  }
+
+  /*
+   * just updates information about user
+   */
+  public static function update_user($id, $uname, $email) {
+    Database::edit_user($id, $uname, $email, date("Y:m:d H:i:s"));
+  }
 }
