@@ -30,7 +30,14 @@ class Router {
               "Datetime:   " . date('Y.m.d H:i:s') . "\n"
             . "Controller: `$controller_name`\n"
             . "File:       `$controller_filename`\n"
-            . "Action:     `$action_name`\n";
+            . "Action:     `$action_name`\n"
+            . "Arguments:  ";
+
+        for ($i = 0; $i < count($args); $i++) {
+          $logmsg .= "`$args[$i]` ";
+        }
+
+        $logmsg .= "\n======================================================\n";
 
         Logger::log_to(ROOT . '/logs/log.txt', $logmsg);
 
@@ -38,12 +45,12 @@ class Router {
         $res = call_user_func_array(array($controller, $action_name), $args);
 
         if ($res != null) {
-          break;
+          return;
         }
-      } else {
-        throw new Error_404;
       }
     }
+
+    throw new Error_404;
   }
 
   // returns request uri
