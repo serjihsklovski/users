@@ -17,26 +17,21 @@ class UsersModel {
    * returns list of users
    * list can be sorted ($sort = true)
    */
-  public static function get_users_list($lim_1=false, $lim_2=false, $sort=false, $desc=false, $field='id') {
+  public static function get_users_list($lim_1, $lim_2, $sort=false, $desc=false, $field='id') {
     $conn = Database::connect();
     $users_list = array();
     $sql = "SELECT id, uname, email, aedt FROM users";
 
     if ($sort) {
-      $sql .= " ORDER BY $id";
+      $sql .= " ORDER BY $field";
 
-      if ($decl) {
+      if ($desc) {
         $sql .= " DECL";
       }
     }
 
-    if ($lim_1) {
-      $sql .= " LIMIT $lim_1";
-
-      if ($lim_2) {
-        $sql .= ", $lim_2";
-      }
-    }
+    $sql .= " LIMIT $lim_1";
+    $sql .= ", $lim_2";
 
     $res = $conn->query($sql);
 
@@ -83,5 +78,12 @@ class UsersModel {
    */
   public static function update_user($id, $uname, $email) {
     Database::edit_user($id, $uname, $email, date("Y:m:d H:i:s"));
+  }
+
+  /*
+   * returns count of rows in the `users` table
+   */
+  public static function row_count() {
+    return Database::connect()->query("SELECT COUNT(*) FROM users")->fetchColumn();
   }
 }
