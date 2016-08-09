@@ -26,7 +26,7 @@ class UsersModel {
       $sql .= " ORDER BY $field";
 
       if ($desc) {
-        $sql .= " DECL";
+        $sql .= " DESC";
       }
     }
 
